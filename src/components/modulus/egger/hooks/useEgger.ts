@@ -12,15 +12,15 @@ const allImages = [
 
 const colors = [
     {
-        code: "#FF0000",
+        code: "#B0B3B5",
         image: image0,
     },
     {
-        code: "#00FF00",
+        code: "#906A4F",
         image: image1,
     },
     {
-        code: "#0000FF",
+        code: "#1E1E20",
         image: image2,
     },
     

@@ -20,13 +20,9 @@ export default function Eagger() {
         className="h-[80vh] bg-white group relative"
       >
         {isLoading && (
-          <motion.div
-            className="absolute top-1/2 right-1/2 -translate-x-1/2 -translate-y-1/2 z-50"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          >
-            <LoaderPinwheel className="size-10 text-white" />
-          </motion.div>
+          <div className="absolute top-1/2 left-1/2 right-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-fit">
+            <LoaderPinwheel className="size-10 text-white animate-spin " />
+          </div>
         )}
 
         <MainEager images={images} />
