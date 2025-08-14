@@ -1,3 +1,5 @@
-export default function Eagger() {
-  return <div></div>;
+import Eagger from "@/components/modulus/egger";
+
+export function EaggerPage() {
+  return <Eagger />;
 }

@@ -1,5 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
-import { HomePage, AboutPage, ServicesPage, NotFoundPage } from "@/pages";
+import {
+  HomePage,
+  AboutPage,
+  ServicesPage,
+  NotFoundPage,
+  EaggerPage,
+} from "@/pages";
 import MainLayout from "@/components/layout/layout";
 
 export const router = createBrowserRouter([
@@ -18,6 +24,10 @@ export const router = createBrowserRouter([
       {
         path: "services",
         element: <ServicesPage />,
+      },
+      {
+        path: "egger",
+        element: <EaggerPage />,
       },
       {
         path: "*",
