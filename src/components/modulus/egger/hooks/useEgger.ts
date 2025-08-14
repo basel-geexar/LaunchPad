@@ -59,9 +59,14 @@ export default function useEgger() {
         const initialImage = allImages[0];
         if (!initialImage) return;
 
+        // Keep loading true until image is fully loaded
+        setIsLoading(true);
+        setCurrentImageLoaded(false);
+
         preloadImage(initialImage).then((success) => {
             if (success) {
-                setImages([initialImage]); // Set the first image
+                // Only set the image after it's fully loaded
+                setImages([initialImage]);
                 setCurrentImageLoaded(true);
                 setImageLoadingError(false);
                 setIsLoading(false);
@@ -84,20 +89,24 @@ export default function useEgger() {
 
         preloadImage(nextImage).then((success) => {
             if (success) {
-                // Update images array with the new image
-                setImages(prevImages => [...prevImages, nextImage]);
-                setCurrentImageLoaded(true);
-                setImageLoadingError(false);
+                // Next image is loaded and ready
                 setIsLoading(false);
                 
-                // End transition after a brief delay to allow for smooth fade
+                // Start the crossfade transition
                 setTimeout(() => {
-                    setIsTransitioning(false);
-                }, 100);
+                    // Update images array with the new image
+                    setImages(prevImages => [...prevImages, nextImage]);
+                    setCurrentImageLoaded(true);
+                    
+                    // End transition after crossfade completes
+                    setTimeout(() => {
+                        setIsTransitioning(false);
+                        setNextImage(""); // Clear next image
+                    }, 1000); // Wait for CSS transition to complete
+                    
+                }, 100); // Small delay to ensure smooth transition start
                 
-                setNextImage(""); // Clear next image
             } else {
-                setCurrentImageLoaded(false);
                 setImageLoadingError(true);
                 setIsLoading(false);
                 setIsTransitioning(false);
@@ -124,8 +133,8 @@ export default function useEgger() {
         setIsOpen(false);
     }, []);
 
-    // Computed loading state that considers both hook loading and image loading
-    const isImageLoading = isLoading || !currentImageLoaded;
+    // Simplified loading state - just check if we're loading or if current image isn't loaded
+    const isImageLoading = isLoading;
 
   return {
     isOpen,
@@ -135,9 +144,10 @@ export default function useEgger() {
     handleColorChange,
     setIsOpen,
     handleClose,
-    isLoading: isImageLoading, // Return the combined loading state
+    isLoading: isImageLoading, // Return the simplified loading state
     currentImageLoaded,
     imageLoadingError,
     isTransitioning,
+    nextImage,
   };
 }

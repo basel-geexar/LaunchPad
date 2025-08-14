@@ -6,15 +6,16 @@ export default function MainEager({
   currentImageLoaded,
   imageLoadingError,
   isTransitioning,
+  nextImage,
 }: {
   images: string[];
   isLoading: boolean;
   currentImageLoaded: boolean;
   imageLoadingError: boolean;
   isTransitioning: boolean;
+  nextImage: string;
 }) {
   const currentImage = images[images.length - 1] || "";
-  const previousImage = images[images.length - 2] || "";
 
   return (
     <div className="h-full md:w-[80%] w-full mx-auto relative">
@@ -25,11 +26,35 @@ export default function MainEager({
         </div>
       )}
 
-      {/* Transition loading overlay - show when loading next image */}
+      {/* Current image - ALWAYS visible when loaded, stays during transition */}
+      {currentImageLoaded && currentImage && (
+        <div
+          style={{
+            backgroundImage: `url(${currentImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+          className="absolute inset-0 transition-all duration-1000 ease-in-out opacity-100"
+        />
+      )}
+
+      {/* Transition loading overlay - show when loading next image, centered on current image */}
       {isLoading && currentImageLoaded && isTransitioning && (
         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 z-10">
           <LoaderPinwheel className="size-10 text-white animate-spin" />
         </div>
+      )}
+
+      {/* Next image - overlays current image and fades in when ready */}
+      {isTransitioning && nextImage && (
+        <div
+          style={{
+            backgroundImage: `url(${nextImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+          className="absolute inset-0 transition-all duration-1000 ease-in-out opacity-0"
+        />
       )}
 
       {/* Error state */}
@@ -42,32 +67,6 @@ export default function MainEager({
             <p className="text-red-600 text-sm">Failed to load image</p>
           </div>
         </div>
-      )}
-
-      {/* Previous image layer - stays visible during transition */}
-      {previousImage && isTransitioning && (
-        <div
-          style={{
-            backgroundImage: `url(${previousImage})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-          className="absolute inset-0 transition-all duration-1000 ease-in-out opacity-100"
-        />
-      )}
-
-      {/* Current image layer - fades in when ready */}
-      {currentImageLoaded && currentImage && (
-        <div
-          style={{
-            backgroundImage: `url(${currentImage})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-          className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
-            isTransitioning ? "opacity-0" : "opacity-100"
-          }`}
-        />
       )}
     </div>
   );
