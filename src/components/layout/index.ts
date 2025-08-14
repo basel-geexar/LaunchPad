@@ -1,2 +1,2 @@
-export { default as MainLayout } from './layout';
-export { default } from './layout';
+export { default as MainLayout } from "@/components/layout/layout";
+export { default } from "@/components/layout/layout";
