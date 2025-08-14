@@ -33,8 +33,11 @@ const SelectColorDialog: React.FC<SelectColorDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger asChild>
-        <Button className="border border-white !w-8 !h-8 bg-transparent !min-w-8 !min-h-8 hover:bg-transparent hover:border-2 transition-all duration-100 hover:border-white hover:text-black rounded-full absolute top-1/2 right-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center !p-0 *:hover:border-2">
+      <DialogTrigger
+        asChild
+        className="!hidden group-hover:!flex transition-all duration-100 absolute top-1/2 right-1/2 -translate-x-1/2 -translate-y-1/2 z-50"
+      >
+        <Button className=" border border-white !w-8 !h-8 bg-transparent !min-w-8 !min-h-8 hover:bg-transparent hover:border-2 transition-all duration-100 hover:border-white hover:text-black rounded-full  flex items-center justify-center !p-0 *:hover:border-2">
           <div className="border border-white !w-4 !h-4 rounded-full block !size-4 bg-transparent " />
         </Button>
       </DialogTrigger>

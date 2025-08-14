@@ -26,16 +26,20 @@ const colors = [
     
 ]
 
-
 export default function useEgger() {
 
     // states
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [images, setImages] = useState<string[]>([allImages[0]]);
-    
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const handleColorChange = (color: { code: string; image: string }) => {
-        setImages([...images, color.image]);
+        setIsLoading(true);
         setIsOpen(true);
+
+        setTimeout(() => {
+            setImages([...images, color.image]);
+            setIsLoading(false);
+        }, 1000);
     }
 
     const handleClose = () => {
@@ -51,5 +55,6 @@ export default function useEgger() {
     handleColorChange,
       setIsOpen,
       handleClose,
+      isLoading,
   };
 }
