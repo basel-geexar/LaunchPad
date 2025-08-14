@@ -30,11 +30,12 @@ export default function useEgger() {
 
     // states
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [images, setImages] = useState<string[]>([allImages[0]]);
+    const [images, setImages] = useState<string[]>([]); // Start with empty array
     const [isLoading, setIsLoading] = useState<boolean>(true); // Start with true to show loading for initial image
     const [currentImageLoaded, setCurrentImageLoaded] = useState<boolean>(false); // Start with false since initial image needs to load
     const [imageLoadingError, setImageLoadingError] = useState<boolean>(false);
     const [nextImage, setNextImage] = useState<string>(""); // Store the next image separately
+    const [isTransitioning, setIsTransitioning] = useState<boolean>(false); // Track transition state
 
     // Function to preload an image and track its loading state
     const preloadImage = useCallback((imageSrc: string): Promise<boolean> => {
@@ -60,6 +61,7 @@ export default function useEgger() {
 
         preloadImage(initialImage).then((success) => {
             if (success) {
+                setImages([initialImage]); // Set the first image
                 setCurrentImageLoaded(true);
                 setImageLoadingError(false);
                 setIsLoading(false);
@@ -75,36 +77,48 @@ export default function useEgger() {
     useEffect(() => {
         if (!nextImage) return;
 
-        setCurrentImageLoaded(false);
+        // Start transition - keep current image visible
+        setIsTransitioning(true);
+        setIsLoading(true);
         setImageLoadingError(false);
 
         preloadImage(nextImage).then((success) => {
             if (success) {
-                // Only update images array when next image is fully loaded
+                // Update images array with the new image
                 setImages(prevImages => [...prevImages, nextImage]);
                 setCurrentImageLoaded(true);
                 setImageLoadingError(false);
                 setIsLoading(false);
+                
+                // End transition after a brief delay to allow for smooth fade
+                setTimeout(() => {
+                    setIsTransitioning(false);
+                }, 100);
+                
                 setNextImage(""); // Clear next image
             } else {
                 setCurrentImageLoaded(false);
                 setImageLoadingError(true);
                 setIsLoading(false);
+                setIsTransitioning(false);
                 setNextImage(""); // Clear next image
             }
         });
     }, [nextImage, preloadImage]);
 
     const handleColorChange = useCallback((color: { code: string; image: string }) => {
-        setIsLoading(true);
+        // Don't start loading if it's the same image
+        if (images[images.length - 1] === color.image) {
+            return;
+        }
+        
         setIsOpen(true);
         
         // Set the next image to load, but don't update images array yet
         setNextImage(color.image);
         
-        // Keep loading state active until next image is fully loaded
         // The useEffect above will handle the actual loading and transition
-    }, []);
+    }, [images]);
 
     const handleClose = useCallback(() => {
         setIsOpen(false);
@@ -124,5 +138,6 @@ export default function useEgger() {
     isLoading: isImageLoading, // Return the combined loading state
     currentImageLoaded,
     imageLoadingError,
+    isTransitioning,
   };
 }

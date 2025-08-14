@@ -17,6 +17,7 @@ export default function Eagger() {
     isLoading,
     currentImageLoaded,
     imageLoadingError,
+    isTransitioning,
   } = useEgger();
 
   return (
@@ -32,6 +33,7 @@ export default function Eagger() {
           isLoading={isLoading}
           currentImageLoaded={currentImageLoaded}
           imageLoadingError={imageLoadingError}
+          isTransitioning={isTransitioning}
         />
 
         {!isLoading && (
