@@ -15,10 +15,14 @@ export default function MainEager({
 
   return (
     <div className="h-full md:w-[80%] w-full mx-auto relative">
-      {/* Loading overlay - only show when actually loading next image */}
+      {/* Loading overlay - show for both initial and next image loading */}
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 z-10">
-          <LoaderPinwheel className="size-10 text-white animate-spin " />
+        <div className="absolute inset-0 flex items-center justify-center bg bg-opacity-30 z-10">
+          <LoaderPinwheel
+            className={`size-10 ${
+              currentImageLoaded ? "text-white" : "text-gray-600"
+            } animate-spin`}
+          />
         </div>
       )}
 
@@ -34,15 +38,18 @@ export default function MainEager({
         </div>
       )}
 
-      {/* Image container - always show current image, transition to new one when ready */}
+      {/* Image container - overlays on top of placeholder */}
       <div
         style={{
-          backgroundImage: currentImage ? `url(${currentImage})` : "none",
+          backgroundImage:
+            currentImageLoaded && currentImage
+              ? `url(${currentImage})`
+              : "none",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
-        className={`h-full w-full transition-all duration-1000 ease-in-out ${
-          currentImageLoaded ? "opacity-100" : "opacity-90"
+        className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+          currentImageLoaded ? "opacity-100" : "opacity-0"
         }`}
       />
     </div>

@@ -31,8 +31,8 @@ export default function useEgger() {
     // states
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [images, setImages] = useState<string[]>([allImages[0]]);
-    const [isLoading, setIsLoading] = useState<boolean>(false); // Start with false since we have initial image
-    const [currentImageLoaded, setCurrentImageLoaded] = useState<boolean>(true); // Start with true since initial image is ready
+    const [isLoading, setIsLoading] = useState<boolean>(true); // Start with true to show loading for initial image
+    const [currentImageLoaded, setCurrentImageLoaded] = useState<boolean>(false); // Start with false since initial image needs to load
     const [imageLoadingError, setImageLoadingError] = useState<boolean>(false);
     const [nextImage, setNextImage] = useState<string>(""); // Store the next image separately
 
@@ -52,6 +52,24 @@ export default function useEgger() {
             img.src = imageSrc;
         });
     }, []);
+
+    // Effect to handle initial image loading when component mounts
+    useEffect(() => {
+        const initialImage = allImages[0];
+        if (!initialImage) return;
+
+        preloadImage(initialImage).then((success) => {
+            if (success) {
+                setCurrentImageLoaded(true);
+                setImageLoadingError(false);
+                setIsLoading(false);
+            } else {
+                setCurrentImageLoaded(false);
+                setImageLoadingError(true);
+                setIsLoading(false);
+            }
+        });
+    }, [preloadImage]);
 
     // Effect to handle next image loading
     useEffect(() => {
