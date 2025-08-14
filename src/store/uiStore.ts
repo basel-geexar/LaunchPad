@@ -15,4 +15,3 @@ export const useUIStore = create<UIState>((set) => ({
   closeContactModal: () => set({ isContactModalOpen: false }),
   setLoading: (loading) => set({ isLoading: loading }),
 }));
-</bortAction>
