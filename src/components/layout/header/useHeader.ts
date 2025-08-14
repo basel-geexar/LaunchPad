@@ -12,6 +12,7 @@ const navItems = [
 const routeItems = [
   { id: "about", label: "About", path: "/about" },
   { id: "services", label: "Services", path: "/services" },
+  { id: "egger", label: "Eagger", path: "/egger" },
 ];
 
 
