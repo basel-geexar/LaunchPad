@@ -1,52 +1,12 @@
-import { motion } from 'framer-motion';
-import { Rocket, Github, Twitter, Linkedin, Mail, Heart } from 'lucide-react';
+import { motion } from "framer-motion";
 
-const footerLinks = {
-  product: {
-    title: 'Product',
-    links: [
-      { name: 'Features', href: '#features' },
-      { name: 'Pricing', href: '#pricing' },
-      { name: 'Documentation', href: '#' },
-      { name: 'API Reference', href: '#' },
-    ],
-  },
-  company: {
-    title: 'Company',
-    links: [
-      { name: 'About Us', href: '#' },
-      { name: 'Careers', href: '#' },
-      { name: 'Press Kit', href: '#' },
-      { name: 'Contact', href: '#contact' },
-    ],
-  },
-  resources: {
-    title: 'Resources',
-    links: [
-      { name: 'Blog', href: '#' },
-      { name: 'Community', href: '#' },
-      { name: 'Help Center', href: '#' },
-      { name: 'Partners', href: '#' },
-    ],
-  },
-  legal: {
-    title: 'Legal',
-    links: [
-      { name: 'Privacy Policy', href: '#' },
-      { name: 'Terms of Service', href: '#' },
-      { name: 'Cookie Policy', href: '#' },
-      { name: 'GDPR', href: '#' },
-    ],
-  },
-};
+// constants
+import { socialLinks, footerLinks } from "@/components/layout/footer/constants";
 
-const socialLinks = [
-  { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Github, href: '#', label: 'GitHub' },
-  { icon: Linkedin, href: '#', label: 'LinkedIn' },
-  { icon: Mail, href: '#', label: 'Email' },
-];
+// icons
+import { Rocket, Heart } from "lucide-react";
 
+// footer
 export function Footer() {
   return (
     <footer className="bg-gray-900 text-white">
@@ -65,7 +25,8 @@ export function Footer() {
               <span className="text-xl font-bold">LaunchPad</span>
             </div>
             <p className="text-gray-400 mb-6 max-w-md">
-              Empowering developers and teams to build, deploy, and scale amazing applications with confidence.
+              Empowering developers and teams to build, deploy, and scale
+              amazing applications with confidence.
             </p>
             <div className="flex space-x-4">
               {socialLinks.map((social, index) => (
@@ -103,7 +64,10 @@ export function Footer() {
                     key={link.name}
                     initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: sectionIndex * 0.1 + linkIndex * 0.05 }}
+                    transition={{
+                      duration: 0.4,
+                      delay: sectionIndex * 0.1 + linkIndex * 0.05,
+                    }}
                     viewport={{ once: true }}
                   >
                     <motion.a
@@ -129,14 +93,14 @@ export function Footer() {
           className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between"
         >
           <p className="text-gray-400 text-sm mb-4 md:mb-0 flex items-center">
-            © 2025 LaunchPad. Made with{' '}
+            © 2025 LaunchPad. Made with{" "}
             <motion.span
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
               className="mx-1"
             >
               <Heart className="h-4 w-4 text-red-500" />
-            </motion.span>{' '}
+            </motion.span>{" "}
             for developers worldwide.
           </p>
           <div className="flex items-center space-x-6 text-sm text-gray-400">
