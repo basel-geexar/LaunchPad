@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,49 +9,34 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 
 interface SelectColorDialogProps {
-  onColorSelect: (color: string) => void;
+  onColorSelect: (color: { code: string; image: string }) => void;
   trigger?: React.ReactNode;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  colors: { code: string; image: string }[];
 }
 
 const SelectColorDialog: React.FC<SelectColorDialogProps> = ({
   onColorSelect,
-  trigger,
+  colors,
   open,
   onOpenChange,
 }) => {
-  const [customColor, setCustomColor] = useState("#000000");
-  const [selectedColor, setSelectedColor] = useState<string>("");
-
-  const predefinedColors = [
-    "#FF0000", // Red
-    "#00FF00", // Green
-    "#0000FF", // Blue
-  ];
-
-  const handleSelectColor = (color: string) => {
-    setSelectedColor(color);
+  const handleSelectColor = (color: { code: string; image: string }) => {
     onColorSelect(color);
     if (onOpenChange) {
       onOpenChange(false);
     }
   };
 
-  const handleCustomColorSubmit = () => {
-    if (customColor) {
-      handleSelectColor(customColor);
-    }
-  };
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        {trigger || <Button variant="outline">Select Color</Button>}
+        <Button className="border border-white !w-8 !h-8 bg-transparent !min-w-8 !min-h-8 hover:bg-transparent hover:border-2 transition-all duration-100 hover:border-white hover:text-black rounded-full absolute top-1/2 right-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center !p-0 *:hover:border-2">
+          <div className="border border-white !w-4 !h-4 rounded-full block !size-4 bg-transparent " />
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -67,59 +51,17 @@ const SelectColorDialog: React.FC<SelectColorDialogProps> = ({
           <div className="space-y-2">
             <Label className="text-sm font-medium">Predefined Colors</Label>
             <div className="grid grid-cols-6 gap-2">
-              {predefinedColors.map((color) => (
+              {colors.map((color) => (
                 <button
-                  key={color}
+                  key={color.code}
                   onClick={() => handleSelectColor(color)}
-                  className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-gray-500 transition-colors"
-                  style={{ backgroundColor: color }}
-                  title={color}
+                  className="size-12 rounded-md  cursor-pointer"
+                  style={{ backgroundColor: color.code }}
+                  title={color.code}
                 />
               ))}
             </div>
           </div>
-
-          {/* Custom Color Input */}
-          <div className="space-y-2">
-            <Label htmlFor="custom-color" className="text-sm font-medium">
-              Custom Color
-            </Label>
-            <div className="flex gap-2">
-              <Input
-                id="custom-color"
-                type="color"
-                value={customColor}
-                onChange={(e) => setCustomColor(e.target.value)}
-                className="w-16 h-10 p-1"
-              />
-              <Input
-                type="text"
-                value={customColor}
-                onChange={(e) => setCustomColor(e.target.value)}
-                placeholder="#000000"
-                className="flex-1"
-              />
-              <Button onClick={handleCustomColorSubmit} size="sm">
-                Apply
-              </Button>
-            </div>
-          </div>
-
-          {/* Selected Color Display */}
-          {selectedColor && (
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">Selected Color</Label>
-              <div className="flex items-center gap-2">
-                <div
-                  className="w-6 h-6 rounded border border-gray-300"
-                  style={{ backgroundColor: selectedColor }}
-                />
-                <Badge variant="secondary" className="font-mono">
-                  {selectedColor}
-                </Badge>
-              </div>
-            </div>
-          )}
         </div>
 
         <DialogFooter>

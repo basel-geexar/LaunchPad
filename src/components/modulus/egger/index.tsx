@@ -8,22 +8,23 @@ import SelectColorDialog from "./components/selectColorDialog";
 import useEgger from "@/components/modulus/egger/hooks/useEgger";
 
 export default function Eagger() {
-  const { isOpen, images, handleColorChange, handleClose } = useEgger();
+  const { isOpen, images, handleColorChange, setIsOpen, colors } = useEgger();
   return (
     <>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="min-h-screen bg-white group"
+        className="min-h-screen bg-white group relative"
       >
         <MainEager images={images} />
+        <SelectColorDialog
+          colors={colors}
+          onColorSelect={handleColorChange}
+          open={isOpen}
+          onOpenChange={setIsOpen}
+        />
       </motion.div>
-      <SelectColorDialog
-        onColorSelect={handleColorChange}
-        open={isOpen}
-        onOpenChange={handleClose}
-      />
     </>
   );
 }

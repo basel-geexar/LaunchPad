@@ -10,6 +10,22 @@ const allImages = [
 
 ]
 
+const colors = [
+    {
+        code: "#FF0000",
+        image: image0,
+    },
+    {
+        code: "#00FF00",
+        image: image1,
+    },
+    {
+        code: "#0000FF",
+        image: image2,
+    },
+    
+]
+
 
 export default function useEgger() {
 
@@ -17,8 +33,8 @@ export default function useEgger() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [images, setImages] = useState<string[]>([allImages[0]]);
     
-    const handleColorChange = (image: string) => {
-        setImages([...images, image]);
+    const handleColorChange = (color: { code: string; image: string }) => {
+        setImages([...images, color.image]);
         setIsOpen(true);
     }
 
@@ -30,8 +46,10 @@ export default function useEgger() {
   return {
     isOpen,
       images,
+      colors,
     allImages,
     handleColorChange,
-    handleClose,
+      setIsOpen,
+      handleClose,
   };
 }
