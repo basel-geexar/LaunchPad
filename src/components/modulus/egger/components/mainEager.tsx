@@ -17,7 +17,7 @@ export default function MainEager({
     <div className="h-full md:w-[80%] w-full mx-auto relative">
       {/* Loading overlay - show for both initial and next image loading */}
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg bg-opacity-30 z-10">
+        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 z-10">
           <LoaderPinwheel
             className={`size-10 ${
               currentImageLoaded ? "text-white" : "text-gray-600"
